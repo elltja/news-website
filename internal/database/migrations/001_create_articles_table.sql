@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS articles (
+    id TEXT PRIMARY KEY,
+    content TEXT NOT NULL,
+    title TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
