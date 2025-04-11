@@ -8,7 +8,7 @@ import (
 )
 
 type Article struct {
-	ID        int       `json:"id"`
+	ID        string    `json:"id"`
 	Title     string    `json:"title"`
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
@@ -16,7 +16,7 @@ type Article struct {
 
 func GetArticles() ([]Article, error) {
 	rows, err := database.DB.Query(`
-		SELECT * FROM articles
+		SELECT id, content, created_at, title FROM articles
 	`)
 	if err != nil {
 		return nil, err
@@ -44,8 +44,8 @@ func GetArticleById(id string) (Article, error) {
 		WHERE id = $1`, id)
 
 	var article Article
-	err := row.Scan(&article.ID, &article.Title, &article.Content, &article.CreatedAt)
-	if err != nil {
+
+	if err := row.Scan(&article.ID, &article.Title, &article.Content, &article.CreatedAt); err != nil {
 		if err == sql.ErrNoRows {
 			return article, nil
 		}

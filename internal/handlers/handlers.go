@@ -14,7 +14,9 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	articles, err := model.GetArticles()
 
 	if err != nil {
+		fmt.Println("Error: ", err)
 		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
 	}
 
 	data := struct {
