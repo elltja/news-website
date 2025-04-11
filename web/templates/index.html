@@ -9,5 +9,15 @@
     ></script>
     <title>News Website</title>
   </head>
-  <body></body>
+  <body>
+    <div>
+      {{range .Articles}}
+      <article>
+        <h2>{{.Title}}</h2>
+        <p>{{.Content}}</p>
+        <a href="{{ printf "/article/%d" .ID }}">Read more</a>
+      </article>
+      {{end}} 
+    </div>
+  </body>
 </html>
