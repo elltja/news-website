@@ -3,11 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="/static/js/script.js"></script>
+    <link rel="stylesheet" href="/static/css/article.css" />
+    <link rel="stylesheet" href="/static/css/globals.css" />
     <title>{{.Article.Title}}</title>
   </head>
   <body>
+    <div id="nav-wrapper">
+      <a href="/">
+        <img src="/static/images/logo.png" />
+        <h2>Website</h2>
+      </a>
+    </div>
     <h1>{{.Article.Title}}</h1>
-    <p>{{.Article.Content}}</p>
-    <p><em>Created at: {{.Article.CreatedAt}}</em></p>
+    <p><em>Published: {{.Article.FormattedCreatedAt}}</em></p>
+    <div>{{.Article.Content}}</div>
   </body>
 </html>

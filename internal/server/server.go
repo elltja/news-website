@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/elltja/news-website/internal/routes"
+	"github.com/elltja/news-website/internal/server/routes"
 	"github.com/elltja/news-website/internal/utils"
 )
 

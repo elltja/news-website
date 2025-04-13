@@ -3,22 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
+    <script defer src="/static/js/script.js"></script>
     <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/globals.css">
     <title>News Website</title>
   </head>
   <body>
+    <div id="nav-wrapper">
+      <a href="/">
+        <img src="/static/images/logo.png" />
+        <h2>Website</h2>
+      </a>
+    </div>
     <div class="article-list">
       {{range .Articles}}
       <article class="article">
         <h2>{{.Title}}</h2>
-        <p>{{.Content}}</p>
+        <p><em>Published: {{ .FormattedCreatedAt }}</em></p>
         <a href="{{ printf "/article/%s" .ID }}">Read more</a>
       </article>
       {{end}} 
     </div>
   </body>
+  <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "urls": ["/article/*"],
+          "eagerness": "moderate",
+        }
+      ]
+    }
+  </script>
 </html>

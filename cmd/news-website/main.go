@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	server "github.com/elltja/news-website/internal"
 	"github.com/elltja/news-website/internal/database"
+	"github.com/elltja/news-website/internal/server"
 	"github.com/joho/godotenv"
 )
 

@@ -2,16 +2,21 @@ package model
 
 import (
 	"database/sql"
+	"html/template"
 	"time"
 
 	"github.com/elltja/news-website/internal/database"
 )
 
 type Article struct {
-	ID        string    `json:"id"`
-	Title     string    `json:"title"`
-	Content   string    `json:"content"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        string        `json:"id"`
+	Title     string        `json:"title"`
+	Content   template.HTML `json:"content"`
+	CreatedAt time.Time     `json:"created_at"`
+}
+
+func (a Article) FormattedCreatedAt() string {
+	return a.CreatedAt.Format("Jan 2, 2006")
 }
 
 func GetArticles() ([]Article, error) {

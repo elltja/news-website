@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/globals.css" />
+    <link rel="stylesheet" href="/static/css/auth.css" />
+    <script src="/static/js/script.js"></script>
+    <script defer src="/static/js/auth.js"></script>
+    <title>Admin</title>
+  </head>
+  <body>
+    <div id="nav-wrapper">
+      <a href="/">
+        <img src="/static/images/logo.png" />
+        <h2>Website</h2>
+      </a>
+    </div>
+    <main>
+      <form id="auth-form">
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input
+            placeholder="you@example.com"
+            type="email"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input
+            placeholder="Your password..."
+            type="password"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+        <p id="error-msg"></p>
+        <button class="submit-btn" type="submit">Submit</button>
+      </form>
+    </main>
+  </body>
+</html>
