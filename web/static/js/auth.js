@@ -17,6 +17,7 @@ form.addEventListener("submit", async (e) => {
   if (!res.ok) {
     displayError(await res.text());
   }
+  window.location.pathname = "/";
 });
 
 function displayError(msg) {

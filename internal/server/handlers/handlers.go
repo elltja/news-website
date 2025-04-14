@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -49,12 +50,21 @@ func AuthPageHandler(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "web/templates/auth.html", nil)
 }
 
+func registerUser(credentials model.UserCridentials) error {
+	hashedPassword, _ := utils.HashPassword(credentials.Password)
+	err := model.CreateUser(model.UserCridentials{
+		Password: hashedPassword,
+		Email:    credentials.Email,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	d := json.NewDecoder(r.Body)
-	credentials := struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}{}
+	credentials := model.UserCridentials{}
 	err := d.Decode(&credentials)
 	if err != nil {
 		http.Error(w, "Invalid request 1", http.StatusBadRequest)
@@ -63,16 +73,20 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := model.GetUserByEmail(credentials.Email)
 
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		http.Error(w, "Invalid request 2", http.StatusBadRequest)
 		return
 	}
 
-	if user.HashedPassword != credentials.Password {
-		fmt.Println(user.HashedPassword)
-		fmt.Println(credentials.Password)
-		http.Error(w, "Invalid Password", http.StatusUnauthorized)
-		return
+	if err == sql.ErrNoRows {
+		registerUser(credentials)
+	} else {
+		if !utils.ComparePasswords(credentials.Password, user.HashedPassword) {
+			fmt.Println(user.HashedPassword)
+			fmt.Println(credentials.Password)
+			http.Error(w, "Invalid Password", http.StatusUnauthorized)
+			return
+		}
 	}
 
 	utils.CreateSession(w, user.ID)
