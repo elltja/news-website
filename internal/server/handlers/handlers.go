@@ -50,31 +50,23 @@ func AuthPageHandler(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "web/templates/auth.html", nil)
 }
 
-func registerUser(credentials model.UserCridentials) error {
-	hashedPassword, _ := utils.HashPassword(credentials.Password)
-	err := model.CreateUser(model.UserCridentials{
-		Password: hashedPassword,
-		Email:    credentials.Email,
-	})
-	if err != nil {
-		return err
-	}
-	return nil
+func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
+	utils.RenderTemplate(w, "web/templates/admin.html", nil)
 }
 
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
+func AuthHandler(w http.ResponseWriter, r *http.Request) {
 	d := json.NewDecoder(r.Body)
 	credentials := model.UserCridentials{}
 	err := d.Decode(&credentials)
 	if err != nil {
-		http.Error(w, "Invalid request 1", http.StatusBadRequest)
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
 	user, err := model.GetUserByEmail(credentials.Email)
 
 	if err != nil && err != sql.ErrNoRows {
-		http.Error(w, "Invalid request 2", http.StatusBadRequest)
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -89,6 +81,18 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	utils.CreateSession(w, user.ID)
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	utils.CreateSession(w, user.ID, user.Role)
+	w.Write([]byte("Succesfully logged in"))
+}
+
+func registerUser(credentials model.UserCridentials) error {
+	hashedPassword, _ := utils.HashPassword(credentials.Password)
+	err := model.CreateUser(model.UserCridentials{
+		Password: hashedPassword,
+		Email:    credentials.Email,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -7,7 +7,7 @@ form.addEventListener("submit", async (e) => {
   const password = document.querySelector("input[name='password']").value;
   console.log({ email, password });
 
-  const res = await fetch("/api/login", {
+  const res = await fetch("/api/authenticate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,6 +16,7 @@ form.addEventListener("submit", async (e) => {
   });
   if (!res.ok) {
     displayError(await res.text());
+    return;
   }
   window.location.pathname = "/";
 });

@@ -10,6 +10,7 @@ type User struct {
 	ID             string `json:"id"`
 	Email          string `json:"email"`
 	HashedPassword string `json:"hashed_password"`
+	Role           string `json:"role"`
 }
 
 type UserCridentials struct {
@@ -18,11 +19,11 @@ type UserCridentials struct {
 }
 
 func GetUserByEmail(email string) (User, error) {
-	row := database.DB.QueryRow(`SELECT id, email, hashed_password FROM users WHERE email = $1`, email)
+	row := database.DB.QueryRow(`SELECT id, email, hashed_password, role FROM users WHERE email = $1`, email)
 
 	var user User
 
-	if err := row.Scan(&user.ID, &user.Email, &user.HashedPassword); err != nil {
+	if err := row.Scan(&user.ID, &user.Email, &user.HashedPassword, &user.Role); err != nil {
 		if err == sql.ErrNoRows {
 			return User{}, sql.ErrNoRows
 		}
