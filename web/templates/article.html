@@ -14,8 +14,13 @@
         <h2>Website</h2>
       </a>
     </div>
-    <h1>{{.Article.Title}}</h1>
-    <p><em>Published: {{.Article.FormattedCreatedAt}}</em></p>
-    <div>{{.Article.Content}}</div>
+    <main id="main-wrapper">
+      <div id="article-wrapper">
+        <h1>{{.Article.Title}}</h1>
+        <p><em>Published: {{.Article.FormattedCreatedAt}}</em></p>
+        <hr />
+        <div id="article-content">{{.Article.Content}}</div>
+      </div>
+    </main>
   </body>
 </html>

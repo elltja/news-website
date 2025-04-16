@@ -1,0 +1,22 @@
+#main-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#article-wrapper {
+  width: 65vw;
+  padding: 50px;
+  box-sizing: border-box;
+  height: fit-content;
+  min-height: calc(100vh - 100px);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+hr {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+}
