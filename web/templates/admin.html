@@ -3,7 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/globals.css" />
+    <link rel="stylesheet" href="/static/css/admin.css" />
+    <script defer src="/static/js/admin.js"></script>
     <title>Admin</title>
   </head>
-  <body></body>
+  <body>
+    <div id="nav-wrapper">
+      <a href="/admin">
+        <img src="/static/images/logo.png" />
+        <h2>Admin</h2>
+      </a>
+    </div>
+    <main id="main-wrapper">
+      <section class="write-post">
+        <form>
+          <h2>Write new post</h2>
+          <div class="form-field">
+            <label for="">Title</label>
+            <input placeholder="Title..." type="text" name="title" />
+          </div>
+          <div class="form-field">
+            <label for="">Content</label>
+            <textarea
+              placeholder="Article content here..."
+              type="text"
+              name="content"
+            ></textarea>
+          </div>
+          <div id="messages">
+            <p id="success-msg"></p>
+            <p id="error-msg"></p>
+          </div>
+          <button type="submit" id="submit-btn">Publish</button>
+        </form>
+      </section>
+      <div class="resizer" id="main-resizer"></div>
+      <section class="lists">
+        <div class="list user-list">
+          <div class="list-items-wrapper">
+            {{ range .Users }}
+            <div class="list-item">
+              <h3>{{ .Email }}</h3>
+              <p>{{ .Role }}</p>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+        <div class="list article-list">
+          <div class="list-items-wrapper">
+            {{ range .Articles }}
+            <div class="list-item">
+              <h3>{{ .Title }}</h3>
+              <p>{{ .FormattedCreatedAt }}</p>
+              <button class="delete-article-btn" data-article-id="{{ .ID }}">
+                Delete
+              </button>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

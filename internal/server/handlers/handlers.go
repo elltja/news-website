@@ -51,7 +51,30 @@ func AuthPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminPageHandler(w http.ResponseWriter, r *http.Request) {
-	utils.RenderTemplate(w, "web/templates/admin.html", nil)
+	articles, err := model.GetArticles()
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+
+	users, err := model.GetUsers()
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+
+	data := struct {
+		Articles []model.Article
+		Users    []model.User
+	}{
+		Articles: articles,
+		Users:    users,
+	}
+	utils.RenderTemplate(w, "web/templates/admin.html", data)
 }
 
 func AuthHandler(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +86,7 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := model.GetUserByEmail(credentials.Email)
+	user, err := model.GetFullUserByEmail(credentials.Email)
 
 	if err != nil && err != sql.ErrNoRows {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
@@ -95,4 +118,32 @@ func registerUser(credentials model.UserCridentials) error {
 		return err
 	}
 	return nil
+}
+
+func CreateArticleHandler(w http.ResponseWriter, r *http.Request) {
+	d := json.NewDecoder(r.Body)
+	data := model.ArticleData{}
+	err := d.Decode(&data)
+	if err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+	err = model.CreateArticle(data)
+	if err != nil {
+		http.Error(w, "Failed to create article", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Article created successfully"))
+}
+
+func DeleteArticleHandler(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	err := model.DeleteArticle(id)
+	if err != nil {
+		http.Error(w, "Failed to delete article", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Article deleted successfully"))
 }

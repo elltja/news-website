@@ -15,6 +15,11 @@ type Article struct {
 	CreatedAt time.Time     `json:"created_at"`
 }
 
+type ArticleData struct {
+	Title   string        `json:"title"`
+	Content template.HTML `json:"content"`
+}
+
 func (a Article) FormattedCreatedAt() string {
 	return a.CreatedAt.Format("Jan 2, 2006")
 }
@@ -57,4 +62,20 @@ func GetArticleById(id string) (Article, error) {
 		return article, err
 	}
 	return article, nil
+}
+
+func CreateArticle(data ArticleData) error {
+	_, err := database.DB.Exec(`INSERT INTO articles (title, content) VALUES ($1, $2)`, data.Title, data.Content)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteArticle(id string) error {
+	_, err := database.DB.Exec(`DELETE FROM articles WHERE id = $1`, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

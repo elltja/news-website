@@ -20,9 +20,15 @@ func RegisterRoutes() chi.Router {
 	router.Route("/admin", func(r chi.Router) {
 		r.Use(utils.AuthorizeAdmin)
 		r.Get("/", handlers.AdminPageHandler)
+
 	})
 	router.Route("/api", func(r chi.Router) {
 		r.Post("/authenticate", handlers.AuthHandler)
+		r.Route("/admin", func(r chi.Router) {
+			r.Use(utils.AuthorizeAdmin)
+			r.Post("/create-article", handlers.CreateArticleHandler)
+			r.Delete("/delete-article/{id}", handlers.DeleteArticleHandler)
+		})
 	})
 
 	return router

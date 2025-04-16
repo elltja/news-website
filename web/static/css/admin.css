@@ -1,0 +1,168 @@
+#main-wrapper {
+  display: flex;
+  height: calc(100vh - 100px);
+  width: 100vw;
+  overflow: hidden;
+}
+
+section.write-post {
+  width: 50%;
+  background: #f5f5f5;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 500px;
+}
+
+section.write-post form {
+  width: 90%;
+  height: 90%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 25px;
+}
+#submit-btn {
+  padding: 10px;
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  resize: none;
+}
+
+.form-field textarea {
+  field-sizing: content;
+  min-height: 75px;
+  max-height: 50vh;
+}
+
+#messages {
+  width: 100%;
+}
+
+#success-msg {
+  color: lime;
+  margin: 0;
+}
+#error-msg {
+  color: red;
+  margin: 0;
+}
+
+#submit-btn {
+  cursor: pointer;
+}
+
+section.lists {
+  width: 50%;
+  display: flex;
+  background: #f0f0f0;
+  overflow: auto;
+  min-width: 17.5vw;
+}
+
+.list {
+  flex: 1;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list.article-list {
+  background-color: #f0f0f0;
+}
+
+.list.user-list {
+  background-color: #f0f0f0;
+}
+
+.list-item {
+  height: fit-content;
+  background-color: white;
+  padding: 5px;
+}
+
+.list-item h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.list-item p {
+  font-size: 0.9rem;
+  margin: 0;
+  color: #545454;
+}
+.delete-article-btn {
+  color: red;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.list-item button:hover {
+  text-decoration: underline;
+}
+
+.resizer {
+  width: 3px;
+  background: #ccc;
+  cursor: col-resize;
+}
+
+.list-items-wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  height: fit-content;
+  gap: 10px;
+}
+@media screen and (max-width: 1000px) {
+  #main-wrapper {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .resizer {
+    display: none;
+  }
+  section.write-post {
+    width: 100vw;
+    flex: 1;
+  }
+  section.lists {
+    width: 100%;
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  section.write-post {
+    min-width: 0;
+  }
+  section.lists {
+    flex-direction: column;
+  }
+}
